@@ -1,0 +1,12 @@
+# Pre-commit hooks for cloud-platform-service.
+# Install once per clone:  pre-commit install
+# Run ad-hoc on all files:  pre-commit run --all-files
+#
+# Scope: gitleaks only (secret scanning).
+# Per-language lint/format hooks are covered by CI (ACL-175/176/177).
+
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks

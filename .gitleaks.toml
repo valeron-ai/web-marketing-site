@@ -1,0 +1,20 @@
+title = "web-marketing-site gitleaks config"
+
+# Extend the official default ruleset.
+# See: https://github.com/gitleaks/gitleaks/blob/master/config/gitleaks.toml
+[extend]
+useDefault = true
+
+# Global allowlist — applies to every rule.
+# We only whitelist patterns that are demonstrably placeholders (ALL_CAPS tokens
+# shaped like YOUR_X / USER_X / <PLACEHOLDER>), not anything that could carry
+# a real credential.
+[allowlist]
+description = "Documentation placeholder tokens"
+regexes = [
+  '''\bYOUR_[A-Z][A-Z0-9_]*\b''',
+  '''\bUSER_JWT_FROM_[A-Z0-9_]+\b''',
+  '''<[A-Z][A-Z0-9_]*>''',
+]
+# Matching any one of the above regexes causes the finding to be dropped.
+regexTarget = "match"
