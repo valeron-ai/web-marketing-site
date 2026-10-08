@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Valeron marketing website
 
-## Getting Started
+This repository is the canonical source for [www.valeron.ai](https://www.valeron.ai). Vercel's existing `valeron/web-marketing-site` project deploys this repository. The website has no runtime dependency on ChatGPT Sites or a downloaded ZIP.
 
-First, run the development server:
+## Edit and run locally
+
+Use Node.js 24, matching the Vercel project.
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. Edit these files directly:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `public/index.html`: homepage content and contact dialog.
+- `public/style.css`: layout, responsive styles, and animations.
+- `public/scene.js`: landscape rendering, tour, and driving controls.
+- `public/contact.js`: contact dialog and clipboard behavior.
+- `public/assets/`: images and landscape data.
+- `src/app/privacy/page.tsx`: the existing privacy page.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`next.config.ts` rewrites only `/` to `public/index.html`. Keep that rewrite and the `/privacy` route when making homepage updates. Existing logos and video remain in `public/assets/`.
 
-## Learn More
+## Preview and publish updates
 
-To learn more about Next.js, take a look at the following resources:
+Create a branch from the latest `main`, edit the files, and validate:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npx tsc --noEmit
+npm run lint
+npm run build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Push the branch and open a pull request to `main`. The existing GitHub–Vercel integration creates a preview deployment; follow the Vercel status or preview link on the pull request. Check desktop and mobile layout, landscape animation and driving, pause/resume, contact options, and `/privacy`.
 
-## Deploy on Vercel
+Merge the pull request into `main` to publish production. No Desktop download, ZIP upload, new token, or Vercel project is needed. `valeron.ai` redirects to `www.valeron.ai` through the existing domain configuration.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Roll back
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+In [the Vercel project](https://vercel.com/valeron/web-marketing-site), use **Instant Rollback** to restore the previous successful production deployment. Preserve that deployment until the release is verified. Then revert the offending commit or pull request in GitHub so `main` matches the intended version before the next deployment.
+
+The production deployment before the teaser migration is `GwTRVHvkaCYo2zEMwKePbzHA9tFR`, built from commit `b0057f5af5366dbd2113f56e12e828fa7bc6d53a`.
